@@ -1,0 +1,178 @@
+/* ========================================================================== */
+/*	PROGRAM Stock Transaction Simulator
+
+    AUTHOR: Yuri Khechoyan  & Jessie Wilkins
+    COURSE NUMBER: CIS 210
+    COURSE SECTION NUMBER: 01
+    INSTRUCTOR NAME: Dr. Tian
+    PROJECT NUMBER: 2 
+    DUE DATE: 09/01/2016
+
+SUMMARY
+
+	This program is used to simulate a Stock Transaction. 
+	Program will simulate stock purchasing and selling.
+	Then it will output a summary telling the user what
+	transactions occurred.
+
+
+INPUT
+
+The input for this program will be Doubles (stock prices), 
+Ints (Stock quantity), & Strings (name of user).
+Doubles will refer to the US Dollar (USD)
+
+OUTPUT
+
+The input values are echoprinted at the end. 
+A multiplication operation will occur to
+Calculate how much Commission cost has been deducted
+and remove that from total price
+Then, the final total will be printed out
+
+ASSUMPTIONS
+- Stock quantity purchased will be an integer (greater than 0)
+- Purchase prices are in the US Dollar unit (double, greater than 0)
+- If whole number is entered, it will be converted into a double
+
+
+/* MAIN FUNCTION */
+
+import java.util.Scanner; 						//Import/Declaration of Scanner Utility
+
+
+public class StockTransactionSimulator {
+	public static void main(String[] args){
+		
+		//Variables
+		String name;							//name of user
+		int numOfBuyStock;						//quantity of stock bought		
+		int numOfSellStock;						//quantity of stock sold
+		double subTotalBuyPrice;				//sub total buying price before Broker fees
+		double subTotalSellPrice;				//sub total selling price before Broker fees
+		double finalBuyTotal;					//final buy total after Broker fees
+		double finalSellTotal;					//final sell total after Broker fees
+		double commissionDeduct;				//Broker deducted fees from subTotalBuyPrice
+		double commissionDeduct2;				//Broker deducted fees from subTotalSellPrice
+		double finalGrandTotal;					//final profit made
+		final double COMMISSION_RATE = 0.02; 	//2% Broker Transactions fees
+		double stockBuyPrice;					//buying Stock price
+		double stockSellPrice;					//selling Stock price
+		
+		
+		//Usage of Scanner Object to receive user input
+		Scanner input = new Scanner(System.in);
+		
+	
+		//==============Start of Program=================
+		
+		
+		//Ask for users name
+		System.out.print("Please enter your name: ");
+		
+		//Store user input into name
+		name = input.nextLine();
+		
+		//Ask for user input - numOfBuyStock
+		System.out.print("The number of Shares you want to purchase: ");
+		
+		//Store user input into numOfBuyStock
+		numOfBuyStock = input.nextInt();
+		
+		//Error Checking - user doesn't enter less than 1
+		while(numOfBuyStock < 1){
+			System.out.print("Please re-enter the number of Shares you want to purchase: ");
+			numOfBuyStock = input.nextInt();
+		}
+		
+		//Ask for purchase price of Stock
+		System.out.print("Purchase Price: $");
+		
+		//Store user input into stockBuyPrice
+		stockBuyPrice = input.nextDouble();
+		
+		//Error Checking - user doesn't enter less than $0
+		while(stockBuyPrice <= 0){
+			System.out.print("Please re-enter the price per Stock you want to buy: ");
+			stockBuyPrice = input.nextDouble();
+		}
+		
+		//Ask for quantity of stock sold
+		System.out.println("The number of Shares you want to sell: ");
+		
+		//Store user input - numOfSellStock
+		numOfSellStock = input.nextInt();
+		
+		//Error Checking - user doesn't enter less than 1
+		while(numOfSellStock < 1){
+			System.out.print("Please re-enter the number of Shares you want to sell: ");
+			numOfSellStock = input.nextInt();
+		}
+		
+		//Ask for sell price of Stock
+		System.out.println("Sold Price: $");
+		
+		//Store user input into stockSellPrice
+		stockSellPrice = input.nextDouble();
+		
+		//Error Checking - user doesn't enter less than $0
+		while(stockSellPrice <= 0){
+			System.out.print("Please re-enter the price per Stock you want to sell: ");
+			stockSellPrice = input.nextDouble();
+		}
+		
+		/*=============================================
+		 =               CALCULATIONS 				  =
+		 *=============================================               
+		*/
+		
+					//*****Buying Calculations*****
+		
+		//Multiply numOfStock & stockBuyPrice: Total Purchase before deduction
+		subTotalBuyPrice = numOfBuyStock * stockBuyPrice;
+		
+		//Calculate commissionDeduct: $678.4
+		commissionDeduct = subTotalBuyPrice * COMMISSION_RATE;
+		
+		//Add commissionDeduct from subTotalPrice to receive finalBuyTotal
+		finalBuyTotal = subTotalBuyPrice + commissionDeduct;
+		
+					
+		
+					//*****Selling Calculations*****
+		
+		//Multiply numOfStock & stockSellPrice: Total Sold before deduction
+		subTotalSellPrice = numOfSellStock * stockSellPrice;
+		
+		//Calculate commissionDeduct2: $735.6
+		commissionDeduct2 = subTotalSellPrice * COMMISSION_RATE;
+		
+		//Subtract commissionDeduct2 from subTotalSellPrice to receive finalSellTotal
+		finalSellTotal = subTotalSellPrice - commissionDeduct2;
+		
+
+					//******Calculate Grand Totals******
+			
+		//Subtract finalSellTotal & finalBuyTotal
+		finalGrandTotal = finalSellTotal - finalBuyTotal;
+		
+		
+			/*========================================
+			  =         Output Display to USER       =
+			  ========================================
+			*/
+		
+		//Echoprint final message to user
+		System.out.printf("%s has purchased %,d shares at $%,.2f .", name, numOfBuyStock, stockBuyPrice);
+		System.out.printf("He then sold %,d shares at $%,.2f.", numOfSellStock, stockSellPrice);
+		System.out.printf("He paid $%,.2f for Broker Fees when buying the stock.", commissionDeduct);
+		System.out.printf("and $%,.2f for Broker Fees when selling the stock.", commissionDeduct2);
+		System.out.printf("So his profit is $%,.2f. Thank you! Good Bye.", finalGrandTotal);
+		
+		
+		//Closes the Scanner - input
+		input.close();
+		
+	}
+	
+}
